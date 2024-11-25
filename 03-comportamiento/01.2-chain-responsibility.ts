@@ -31,9 +31,12 @@ abstract class BaseApprover implements Approver {
   protected next(amount: number): void {
     if (this.nextApprover) {
       this.nextApprover.approveRequest(amount);
-    } else {
-      console.log('Solicitud no pudo ser aprobada.');
-    }
+      return;
+    } 
+    
+    
+    console.log('Solicitud no pudo ser aprobada.');
+    
   }
 }
 
