@@ -22,9 +22,10 @@ interface Observer {
 }
 
 // Clase Subject - WeatherStation
+// TODO: Terminal la implementación
 class WeatherStation {
-  private observers: Observer[] = [];
-  private weatherData: string = 'Soleado';
+  // observers = [];
+  // weatherData = 'Soleado';
 
   // Agregar un Observer
   subscribe(observer: Observer): void {
@@ -68,7 +69,9 @@ class WeatherApp implements Observer {
   // Recibir actualización del clima
   update(weatherData: string): void {
     console.log(
-      `${this.name} ha recibido notificación del clima: %c${weatherData}`,
+      `%c${this.name} %cha recibido notificación del clima: %c${weatherData}`,
+      COLORS.red,
+      COLORS.white,
       COLORS.yellow
     );
   }
