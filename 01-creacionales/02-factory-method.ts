@@ -12,3 +12,96 @@
  * https://refactoring.guru/es/design-patterns/factory-method
  *
  */
+
+import { COLORS } from "../helpers/colors.ts";
+
+interface Hamburger {
+    prepare(): void;
+
+}
+
+class ChickenHamburger implements Hamburger {
+    prepare(): void {
+        console.log("Preparando hamburguesa de %cpollo.", COLORS.yellow);
+    }
+}
+
+class BeefHamburger implements Hamburger {
+    prepare(): void {
+        console.log("Preparando hamburguesa de %cres.", COLORS.red);
+    }
+}
+
+class BeanHamburger implements Hamburger {
+    prepare(): void {
+        console.log("Preparando hamburguesa de %cfrijoles.", COLORS.brown);
+    }
+}
+
+class VeggieHamburger implements Hamburger {
+    prepare(): void {
+        console.log("Preparando hamburguesa %cvegetariana.", COLORS.green);
+    }
+}
+
+abstract class Restaurant {
+    protected abstract createHamburger(): Hamburger;
+
+    orderHambunger(): void {
+        const hamburger = this.createHamburger();
+        hamburger.prepare();
+    }
+
+}
+
+class ChickenRestaurant extends Restaurant {
+    override createHamburger(): Hamburger {
+        return new ChickenHamburger();
+    }
+}
+
+class BeefRestaurant extends Restaurant {
+    override createHamburger(): Hamburger {
+        return new BeefHamburger();
+    }
+}
+
+class BeanRestaurant extends Restaurant {
+    override createHamburger(): Hamburger {
+        return new BeanHamburger();
+    }
+}
+
+class VeggieRestaurant extends Restaurant {
+    protected override createHamburger(): Hamburger {
+        return new VeggieHamburger();
+    }
+}
+
+function main() {
+
+    let restaurant: Restaurant;
+
+    const burgerType = prompt("Que tipo de hamburguesa deseas? (chicken/beef/bean/veggie)");
+
+    switch (burgerType) {
+        case "chicken":
+            restaurant = new ChickenRestaurant();
+            break;
+        case "beef":
+            restaurant = new BeefRestaurant();
+            break;
+        case "bean":
+            restaurant = new BeanRestaurant();
+            break;
+        case "veggie":
+            restaurant = new VeggieRestaurant();
+            break;
+        default:
+            throw new Error("Tipo de hamburguesa no válido.");
+            return;
+    }
+    restaurant.orderHambunger();
+}
+
+main();

@@ -10,30 +10,57 @@
  * https://refactoring.guru/es/design-patterns/prototype
  */
 
+// [...Objeto] para arrays con contenido prmitivo
+// structuredClone() para objetos con contenido complejo, como objetos anidados, funciones, etc.
 class Pokemon {
-  name: string;
-  type: string;
-  level: number;
-  attacks: string[];
+  // name: string;
+  // type: string;
+  // level: number;
+  // attacks: string[];
 
-  constructor(name: string, type: string, level: number, attacks: string[]) {
-    throw new Error('Method not implemented.');
+  // constructor(name: string, type: string, level: number, attacks: string[]) {
+  //   this.name = name;
+  //   this.type = type;
+  //   this.level = level;
+  //   this.attacks = attacks;
+  // }
+
+
+  constructor(
+    public name: string,
+    public type: string,
+    public level: number,
+    public attacks: string[]
+  ) {
   }
-
   // Método para clonar el Pokémon
   clone(): Pokemon {
     // Los ataques deben de evitar pasarse por referencia, es decir, no deben de ser el mismo arreglo.
     // Completar: Debe devolver un nuevo Pokémon con los mismos atributos
+    return new Pokemon(this.name, this.type, this.level, [...this.attacks]);
   }
 
   displayInfo(): void {
     console.log(
-      `Nombre: ${this.name}\nTipo: ${this.type}\nNivel: ${
-        this.level
+      `Nombre: ${this.name}\nTipo: ${this.type}\nNivel: ${this.level
       }\nAtaques: ${this.attacks.join(', ')}`
     );
   }
 }
+
+function main() {
+  const basePokemon = new Pokemon("Charmander", "Fuego", 1, ["Llamarada", "Arañazo"]);
+  const clone1 = basePokemon.clone();
+  clone1.name = "Charmeleon";
+  clone1.level = 16;
+  clone1.attacks.push("Lanzallamas");
+
+  basePokemon.displayInfo(); // Aquí no debe de aparecer "Lanzallamas"
+  console.log('\n');
+  clone1.displayInfo();
+}
+
+main();
 
 // Tarea:
 // 1. Crear un Pokémon base.
