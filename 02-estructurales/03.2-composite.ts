@@ -47,11 +47,20 @@ class MenuCategory implements MenuComponent {
   // TODO: Crear dos propiedades privadas: name y items
   // Name sting y items arreglo de MenuComponent
   // Name es recibida en el constructor, items se inicializa como un arreglo vacío
+  private name: string;
+  private items: MenuComponent[] = [];
+
+  constructor(name: string) {
+    this.name = name;
+  }
 
   //TODO: Sobrecarga de operadores - Item puede ser MenuComponent o un arreglo de MenuComponent
-  add(item: unknown): void {
-    // TODO: Implementar la sobrecarga de operadores
-    throw new Error('Method not implemented.');
+  add(item: MenuComponent | MenuComponent[]): void {
+    if (Array.isArray(item)) {
+      this.items.push(...(item as MenuComponent[]));
+    } else {
+      this.items.push(item as MenuComponent);
+    }
   }
 
   showDetails(indent: string = ''): void {
@@ -71,6 +80,7 @@ function main() {
   const soda = new MenuItem('Refresco', 2.5);
   const dessert = new MenuItem('Pastel de chocolate', 6.5);
   const coffee = new MenuItem('Café', 1.99);
+  const te = new MenuItem('té', 0.99);
 
   // Crear categorías de menú y añadir ítems
   const appetizers = new MenuCategory('Entradas');
@@ -78,11 +88,23 @@ function main() {
   appetizers.add(soup);
 
   const mainCourse = new MenuCategory('Plato Principal');
+  const veggieCourse = new MenuCategory('Plato Vegetariano');
+  veggieCourse.add(new MenuItem('Pasta Primavera', 12.99));
+  veggieCourse.add(new MenuItem('Tacos de Vegetales', 10.99));
+  mainCourse.add(veggieCourse);
   mainCourse.add(steak);
 
   const beverages = new MenuCategory('Bebidas');
-  beverages.add(soda);
-  beverages.add(coffee);
+  const hotBeverages = new MenuCategory('Bebidas Calientes');
+  const coldBeverages = new MenuCategory('Bebidas Frías');
+
+  beverages.add(hotBeverages);
+  beverages.add(coldBeverages);
+
+  hotBeverages.add(coffee);
+  hotBeverages.add(te);
+  
+  coldBeverages.add(soda);
 
   const desserts = new MenuCategory('Postres');
   desserts.add(dessert);

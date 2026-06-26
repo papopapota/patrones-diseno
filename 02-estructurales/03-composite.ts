@@ -13,3 +13,70 @@
  * https://refactoring.guru/es/design-patterns/composite
  *
  */
+
+import { COLORS } from "../helpers/colors.ts";
+
+interface FileSystemComponent {
+    showDetails(indent?: string): void;
+
+}
+
+class File implements FileSystemComponent {
+    private name: string;
+    constructor(name: string) {
+        this.name = name;
+    }
+    showDetails(indent?: string): void {
+        console.log(`%c${indent} - Archivo: ${this.name}`, COLORS.green);
+    }
+
+}
+
+class Folder implements FileSystemComponent {
+    private name: string;
+    private contents: FileSystemComponent[] = [];
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    showDetails(indent: string = '  '): void {
+        console.log(`%c${indent} + Carpeta: ${this.name}`, COLORS.blue);
+        this.contents.forEach((component) => { component.showDetails(indent + "  "); });
+    }
+
+    add(component: FileSystemComponent): void {
+        this.contents.push(component);
+    }
+}
+
+function main() {
+    const file1 = new File("archivo1.txt");
+    const file2 = new File("archivo2.txt");
+    const file3 = new File("archivo3.txt");
+    const file4 = new File("archivo4.txt");
+
+
+    const folder1 = new Folder("carpeta1");
+    const folder5 = new Folder("carpeta5");
+    
+    folder1.add(file1);
+    folder1.add(file2);
+    
+    
+    const folder2 = new Folder("carpeta2");
+    folder2.add(file3);
+
+    const folder3 = new Folder("carpeta3");
+    folder3.add(file4);
+    folder2.add(folder3);
+    folder2.add(folder5);
+
+    const rootFolder = new Folder("Carpeta Root");
+    rootFolder.add(folder1);
+    rootFolder.add(folder2);
+
+    console.log(rootFolder.showDetails());
+}
+
+main();
