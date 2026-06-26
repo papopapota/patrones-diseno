@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
     "paypal"
-  ]
+  ],
+  "deno.enable": true,
+  "deno.path": "/home/w11/.deno/bin/deno"
 }
